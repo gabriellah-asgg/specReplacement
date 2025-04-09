@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7bc660c7-eec7-40d2-bd20-3641eb162b75" name="Changes" comment="added in sh files">
-      <change afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Spec_Template.xltx" afterDir="false" />
+    <list default="true" id="7bc660c7-eec7-40d2-bd20-3641eb162b75" name="Changes" comment="added in req file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/setup_and_run.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/specification_replacement.py" beforeDir="false" afterPath="$PROJECT_DIR$/specification_replacement.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +23,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "gabriellah-asgg"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/gabriellah-asgg/specReplacement",
+    "accountId": "c72f5015-3868-4b03-8807-3f84f66ce33e"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -74,12 +82,29 @@
       <option name="project" value="LOCAL" />
       <updated>1744141558174</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added in sh files">
+      <option name="closed" value="true" />
+      <created>1744219995406</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1744219995406</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added in req file">
+      <option name="closed" value="true" />
+      <created>1744220013076</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1744220013076</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added in sh files" />
-    <option name="LAST_COMMIT_MESSAGE" value="added in sh files" />
+    <MESSAGE value="added in req file" />
+    <option name="LAST_COMMIT_MESSAGE" value="added in req file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
