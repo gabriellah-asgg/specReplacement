@@ -1,26 +1,35 @@
 import os
+import re
 from docx import Document
 from docx.shared import RGBColor
 from docx.enum.text import WD_COLOR_INDEX
 import pandas as pd
-from tkinter import Tk
-from tkinter.filedialog import askdirectory
+from tkinter.filedialog import askdirectory, askopenfilename
 
-#file_directory = r"T:\JRD MTA\MTA Sample Sections - Copy"
+# Select the directory and files
 file_directory = askdirectory(title='Select Folder with documents')
 files = os.listdir(file_directory)
 paths = [os.path.join(file_directory, file) for file in files]
 docs = [f for f in paths if ".docx" in f]
-excel = [ex for ex in paths if ".xlsx" in ex]
 
-#replacement_mapping = r"T:\JRD MTA\MTA Sample Sections - Copy\specification_mapping.xlsx"
-replacement_mapping = askdirectory(title='Select replacement file')
-mapping = pd.read_excel(replacement_mapping)
+# make new folder
+new_folder_path = os.path.join(file_directory, 'Edited Documents')
+os.makedirs(new_folder_path, exist_ok=True)
 
-current = [s.lower() for s in list(mapping['Current Word'])]
-rep = [s.lower() for s in list(mapping['Replacement'])]
+# Select the replacement mapping file
+replacement_mapping = askopenfilename(title='Select replacement file')
+word_mapping = pd.read_excel(replacement_mapping, 'Word Replacements')
+file_mapping = pd.read_excel(replacement_mapping, 'File Replacements')
 
+# Prepare the mapping dictionary
+current = [s.lower() for s in list(word_mapping['Original'])]
+rep = [s.lower() for s in list(word_mapping['Replacement'])]
 replacement_dict = dict(zip(current, rep))
+
+# Prepare the file mapping dictionary
+ori_file = [s for s in list(file_mapping['Original'])]
+rep_file = [s for s in list(file_mapping['Replacement'])]
+file_replacement_dict = dict(zip(ori_file, rep_file))
 
 
 def replace_and_highlight(doc_path, output_path, replacements):
@@ -28,25 +37,40 @@ def replace_and_highlight(doc_path, output_path, replacements):
 
     # Iterate through each paragraph
     for para in doc.paragraphs:
-        for run in para.runs:
-            original_text = run.text
-            lower_text = original_text.lower()  # Convert run text to lowercase for comparison
+        # split the text into separate runs for replacements
+        full_text = para.text
+        for word, replacement in replacements.items():
+            pattern = r'\b' + re.escape(word) + r'\b'  # Use word boundary to match whole words
+            if re.search(pattern, full_text, re.IGNORECASE):
+                # split the paragraph into runs
+                runs = []
+                last_index = 0
+                for match in re.finditer(pattern, full_text, re.IGNORECASE):
+                    start, end = match.span()
+                    # Add text before the match as a new run
+                    if start > last_index:
+                        runs.append((full_text[last_index:start], None))  # No replacement text here
+                    # Add the replacement as a new run
+                    runs.append((replacement, WD_COLOR_INDEX.YELLOW))  # Add the highlighted replacement
+                    last_index = end
+                # Add any remaining text after the last match as a new run
+                if last_index < len(full_text):
+                    runs.append((full_text[last_index:], None))  # No replacement text here
 
-            for word, replacement in replacements.items():
-                if word in lower_text:
-                    # Preserve original case where possible
-                    replaced_text = lower_text.replace(word, replacement)
+                # Clear the original runs and add the new runs
+                para.clear()  # Clear the existing paragraph runs
+                for text, highlight in runs:
+                    new_run = para.add_run(text)
+                    if highlight:
+                        new_run.font.highlight_color = highlight
 
-                    # Apply changes to the run text
-                    run.text = replaced_text
-
-                    # Highlight the modified text
-                    run.font.highlight_color = WD_COLOR_INDEX.YELLOW
-
-                    # Save the modified document
+    # Save the modified document
     doc.save(output_path)
 
 
+# Iterate over the documents and apply the replacement
 for file in docs:
-    replace_and_highlight(file, "test.docx", replacement_dict)
+    output_path = file_replacement_dict.get(file.split('\\')[1])
+    new_file_path = os.path.join(new_folder_path, output_path)
+    replace_and_highlight(file, new_file_path, replacement_dict)
     break
