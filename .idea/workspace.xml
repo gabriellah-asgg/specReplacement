@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7bc660c7-eec7-40d2-bd20-3641eb162b75" name="Changes" comment="added in req file">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="7bc660c7-eec7-40d2-bd20-3641eb162b75" name="Changes" comment="added more instructions to README.txt">
       <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,13 +97,22 @@
       <option name="project" value="LOCAL" />
       <updated>1744220013076</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added more instructions to README.txt">
+      <option name="closed" value="true" />
+      <created>1744220322344</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1744220322344</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added in sh files" />
     <MESSAGE value="added in req file" />
-    <option name="LAST_COMMIT_MESSAGE" value="added in req file" />
+    <MESSAGE value="added more instructions to README.txt" />
+    <option name="LAST_COMMIT_MESSAGE" value="added more instructions to README.txt" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

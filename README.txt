@@ -5,7 +5,7 @@ Requirements:
 
 
 Setup Instructions:
-1. Install Python 3.12 from https://www.python.org/downloads/
+1. Install Python 3.12 from https://www.python.org/downloads/release/python-31210/
 	- Ensure that it is installed at C:\Users\%USERNAME%\AppData\Local\Programs\Python\Python312 (this will most likely be the default)
 		- %USERNAME% should be your username on your machine
 	- Make sure to add Python to your Path when installing (there should be a box to check)
