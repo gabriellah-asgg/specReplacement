@@ -5,6 +5,7 @@ from docx.shared import RGBColor
 from docx.enum.text import WD_COLOR_INDEX
 import pandas as pd
 from tkinter.filedialog import askdirectory, askopenfilename
+import win32com.client as win32
 
 # Select the directory and files
 file_directory = askdirectory(title='Select Folder with documents')
@@ -32,45 +33,41 @@ rep_file = [s for s in list(file_mapping['Replacement'])]
 file_replacement_dict = dict(zip(ori_file, rep_file))
 
 
-def replace_and_highlight(doc_path, output_path, replacements):
-    doc = Document(doc_path)
+def replace_and_track_changes(doc_path, output_path, replacements):
+    doc_path = os.path.abspath(doc_path)
+    doc_path = doc_path.replace('/', '\\')
+    word = win32.gencache.EnsureDispatch('Word.Application')
+    word.Visible = False  # Change to True if you want to watch it
+    word.DisplayAlerts = False
 
-    # Iterate through each paragraph
-    for para in doc.paragraphs:
-        # split the text into separate runs for replacements
-        full_text = para.text
-        for word, replacement in replacements.items():
-            pattern = r'\b' + re.escape(word) + r'\b'  # Use word boundary to match whole words
-            if re.search(pattern, full_text, re.IGNORECASE):
-                # split the paragraph into runs
-                runs = []
-                last_index = 0
-                for match in re.finditer(pattern, full_text, re.IGNORECASE):
-                    start, end = match.span()
-                    # Add text before the match as a new run
-                    if start > last_index:
-                        runs.append((full_text[last_index:start], None))  # No replacement text here
-                    # Add the replacement as a new run
-                    runs.append((replacement, WD_COLOR_INDEX.YELLOW))  # Add the highlighted replacement
-                    last_index = end
-                # Add any remaining text after the last match as a new run
-                if last_index < len(full_text):
-                    runs.append((full_text[last_index:], None))  # No replacement text here
+    doc = word.Documents.Open(doc_path)
+    doc.TrackRevisions = True
+    doc.ShowRevisions = True
 
-                # Clear the original runs and add the new runs
-                para.clear()  # Clear the existing paragraph runs
-                for text, highlight in runs:
-                    new_run = para.add_run(text)
-                    if highlight:
-                        new_run.font.highlight_color = highlight
+    for word_text, replacement in replacements.items():
+        find = doc.Content.Find
+        find.Text = word_text
+        find.Replacement.Text = replacement
+        find.Forward = True
+        find.Wrap = 1  # wdFindContinue
+        find.Format = False
+        find.MatchCase = False
+        find.MatchWholeWord = True
+        find.MatchWildcards = False
+        find.MatchSoundsLike = False
+        find.MatchAllWordForms = False
 
-    # Save the modified document
-    doc.save(output_path)
+        # wdReplaceAll = 2
+        find.Execute(Replace=2)
+
+    doc.SaveAs(output_path)
+    doc.Close()
+    word.Quit()
 
 
 # Iterate over the documents and apply the replacement
 for file in docs:
     output_path = file_replacement_dict.get(file.split('\\')[1])
     new_file_path = os.path.join(new_folder_path, output_path)
-    replace_and_highlight(file, new_file_path, replacement_dict)
+    replace_and_track_changes(file, new_file_path, replacement_dict)
     break
